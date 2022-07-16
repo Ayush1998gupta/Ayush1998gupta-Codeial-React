@@ -6,6 +6,7 @@ import { fetchPosts } from '../actions/posts';
 import Navbar from './Navbar';
 import Home from './Home';
 import Page404 from './Page404';
+// import { Home, Navbar, Page404 } from './index';
 
 const Login = () => <div>Login</div>;
 
