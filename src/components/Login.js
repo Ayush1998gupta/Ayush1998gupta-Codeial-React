@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { login } from '../actions/auth';
+import { Redirect } from 'react-router-dom';
+import { login, clearAuthState } from '../actions/auth';
 
 class Login extends Component {
   constructor(props) {
@@ -13,6 +14,10 @@ class Login extends Component {
       password: '',
     };
   }
+  componentWillUnmount() {
+    this.props.dispatch(clearAuthState());
+  }
+
   handelEmailChange = (e) => {
     this.setState({
       email: e.target.value,
@@ -36,45 +41,50 @@ class Login extends Component {
       this.props.dispatch(login(email, password));
     }
   };
+
+
   render() {
-    const { error, inProgress } = this.props.auth;
-    return (
-      <form className="login-form">
-        <span className="login-signup-header">Log In</span>
-        {error && <div className="alert error-dailog">{error}</div>}
-        <div className="field">
-          <input
-            type="email"
-            placeholder="Email"
-            required
-            // ref={this.emailInputRef}
-            onChange={this.handelEmailChange}
-            value={this.state.email}
-          />
-        </div>
-        <div className="field">
-          <input
-            type="password"
-            placeholder="Password"
-            required
-            // ref={this.passwordInputRef}
-            onChange={this.handelPasswordChange}
-            value={this.state.password}
-          />
-        </div>
-        <div className="field">
-          {inProgress ? (
-            <button onClick={this.handelFormSummit} disabled={inProgress}>
-              Logging in...
-            </button>
-          ) : (
-            <button onClick={this.handelFormSummit} disabled={inProgress}>
-              Login
-            </button>
-          )}
-        </div>
-      </form>
-    );
+    const { error, inProgress ,isLoggedin} = this.props.auth;
+    if (isLoggedin) {
+      return <Redirect to="/"/>
+    }
+      return (
+        <form className="login-form">
+          <span className="login-signup-header">Log In</span>
+          {error && <div className="alert error-dailog">{error}</div>}
+          <div className="field">
+            <input
+              type="email"
+              placeholder="Email"
+              required
+              // ref={this.emailInputRef}
+              onChange={this.handelEmailChange}
+              value={this.state.email}
+            />
+          </div>
+          <div className="field">
+            <input
+              type="password"
+              placeholder="Password"
+              required
+              // ref={this.passwordInputRef}
+              onChange={this.handelPasswordChange}
+              value={this.state.password}
+            />
+          </div>
+          <div className="field">
+            {inProgress ? (
+              <button onClick={this.handelFormSummit} disabled={inProgress}>
+                Logging in...
+              </button>
+            ) : (
+              <button onClick={this.handelFormSummit} disabled={inProgress}>
+                Login
+              </button>
+            )}
+          </div>
+        </form>
+      );
   }
 }
 
