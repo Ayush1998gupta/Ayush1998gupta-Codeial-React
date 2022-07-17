@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { editUser, clearAuthState } from '../actions/auth';
 
 class Setting extends Component {
   constructor(props) {
@@ -17,8 +18,20 @@ class Setting extends Component {
       [fieldName]: val,
     });
   };
-  render() {
+
+  handleSave = () => {
+    const { password, confirmPassword, name } = this.state;
     const { user } = this.props.auth;
+
+    this.props.dispatch(editUser(name, password, confirmPassword, user._id));
+  };
+
+  componentWillUnmount() {
+    this.props.dispatch(clearAuthState());
+  }
+
+  render() {
+    const { user, error } = this.props.auth;
     const { editMode } = this.state;
     return (
       <div className="settings">
@@ -30,6 +43,13 @@ class Setting extends Component {
           />
         </div>
 
+        {error && <div className="alert error-dailog">{error}</div>}
+        {error === false && (
+          <div className="alert success-dailog">
+            Successfully updated profile!
+          </div>
+        )}
+
         <div className="field">
           <div className="field-lable">Email</div>
           <div className="field-value">{user.email}</div>
@@ -40,7 +60,7 @@ class Setting extends Component {
           {editMode ? (
             <input
               type="text"
-              onChange={(e) => this.handelChange('name', e.target.value)}
+              onChange={(e) => this.handleChange('name', e.target.value)}
               value={this.state.name}
             />
           ) : (
@@ -52,7 +72,7 @@ class Setting extends Component {
             <div className="field-lable">New Password</div>
             <input
               type="password"
-              onChange={(e) => this.handelChange('password', e.target.value)}
+              onChange={(e) => this.handleChange('password', e.target.value)}
               value={this.state.password}
             />
           </div>
@@ -64,7 +84,7 @@ class Setting extends Component {
             <input
               type="password"
               onChange={(e) =>
-                this.handelChange('confirmPassword', e.target.value)
+                this.handleChange('confirmPassword', e.target.value)
               }
               value={this.state.confirmPassword}
             />
@@ -73,7 +93,9 @@ class Setting extends Component {
 
         <div className="btn-grp">
           {editMode ? (
-            <button className="button save-btn">Save</button>
+            <button className="button save-btn" onClick={this.handleSave}>
+              Save
+            </button>
           ) : (
             <button
               className="button edit-btn"

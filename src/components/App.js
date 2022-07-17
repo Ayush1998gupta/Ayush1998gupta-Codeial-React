@@ -18,6 +18,7 @@ import {
 } from './';
 import jwt from 'jwt-decode';
 import { authenticateUser } from '../actions/auth';
+import { getAuthTokenFromLocalStorage } from '../helpers/utils';
 
 // const Settings = () => <div>Setting </div>;
 
@@ -47,7 +48,7 @@ class App extends Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
 
-    const token = localStorage.getItem('token');
+    const token = getAuthTokenFromLocalStorage();
 
     if (token) {
       const user = jwt(token);
