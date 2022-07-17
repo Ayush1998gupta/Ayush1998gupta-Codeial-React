@@ -42,49 +42,49 @@ class Login extends Component {
     }
   };
 
-
   render() {
-    const { error, inProgress ,isLoggedin} = this.props.auth;
+    const { error, inProgress, isLoggedin } = this.props.auth;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
     if (isLoggedin) {
-      return <Redirect to="/"/>
+      return <Redirect to={from} />;
     }
-      return (
-        <form className="login-form">
-          <span className="login-signup-header">Log In</span>
-          {error && <div className="alert error-dailog">{error}</div>}
-          <div className="field">
-            <input
-              type="email"
-              placeholder="Email"
-              required
-              // ref={this.emailInputRef}
-              onChange={this.handelEmailChange}
-              value={this.state.email}
-            />
-          </div>
-          <div className="field">
-            <input
-              type="password"
-              placeholder="Password"
-              required
-              // ref={this.passwordInputRef}
-              onChange={this.handelPasswordChange}
-              value={this.state.password}
-            />
-          </div>
-          <div className="field">
-            {inProgress ? (
-              <button onClick={this.handelFormSummit} disabled={inProgress}>
-                Logging in...
-              </button>
-            ) : (
-              <button onClick={this.handelFormSummit} disabled={inProgress}>
-                Login
-              </button>
-            )}
-          </div>
-        </form>
-      );
+    return (
+      <form className="login-form">
+        <span className="login-signup-header">Log In</span>
+        {error && <div className="alert error-dailog">{error}</div>}
+        <div className="field">
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            // ref={this.emailInputRef}
+            onChange={this.handelEmailChange}
+            value={this.state.email}
+          />
+        </div>
+        <div className="field">
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            // ref={this.passwordInputRef}
+            onChange={this.handelPasswordChange}
+            value={this.state.password}
+          />
+        </div>
+        <div className="field">
+          {inProgress ? (
+            <button onClick={this.handelFormSummit} disabled={inProgress}>
+              Logging in...
+            </button>
+          ) : (
+            <button onClick={this.handelFormSummit} disabled={inProgress}>
+              Login
+            </button>
+          )}
+        </div>
+      </form>
+    );
   }
 }
 
