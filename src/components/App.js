@@ -3,18 +3,29 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { fetchPosts } from '../actions/posts'; 
-import Navbar from './Navbar';
-import Home from './Home';
-import Page404 from './Page404';
-import Login from './Login';
-// import { Home, Navbar, Page404 } from './index';
-
-
-const Signup = () => <div>Signup</div>;
+import { Home, Navbar, Page404 ,Login,Signup} from './';
+import jwt  from 'jwt-decode';
+import { authenticateUser } from '../actions/auth';
 
 class App extends Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
+
+    
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      const user = jwt(token);
+
+      console.log('user', user);
+      this.props.dispatch(
+        authenticateUser({
+          email: user.email,
+          _id: user._id,
+          name: user.name,
+        })
+      );
+    }
   }
   render() {
     const { posts } = this.props;
