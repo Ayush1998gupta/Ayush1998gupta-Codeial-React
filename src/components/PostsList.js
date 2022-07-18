@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'; 
+import { Link } from 'react-router-dom';
 
 class PostsList extends Component {
    render() {
@@ -10,10 +11,12 @@ class PostsList extends Component {
           <div className="post-wrapper" key={post._id}>
             <div className="post-header">
               <div className="post-avatar">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/128/149/149071.png"
-                  alt="avatar"
-                />
+                <Link to={`/user/${post.user._id}`}>
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/128/149/149071.png"
+                    alt="avatar"
+                  />
+                </Link>
                 <div>
                   <span className="post-author">{post.user.name}</span>
                   <span className="post-time">a minute ago</span>
@@ -23,19 +26,12 @@ class PostsList extends Component {
 
               <div className="post-actons">
                 <div className="post-like">
-                  {/* <img
-                      src="https://cdn-icons-png.flaticon.com/128/1077/1077035.png"
-                      alt="likes-icon"
-                    /> */}
                   <i className="fa-solid fa-thumbs-up"></i>
                   <span>{post.likes.length}</span>
                 </div>
 
                 <div className="post-comments-icon">
-                  {/* <img
-                      src="https://cdn-icons.flaticon.com/png/128/3114/premium/3114810.png?token=exp=1657964039~hmac=4b71dbf555f5c4996b135795cc358f9f"
-                      alt="comments-icon"
-                    />  */}
+                 
                   <i className="fa-solid fa-comment"></i>
                   <span>{post.comments.length}</span>
                 </div>
