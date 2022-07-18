@@ -12,6 +12,10 @@ class UserProfile extends Component {
     }
   }
 
+  checkIfUserIsAFriend = () => {
+    console.log('this.props', this.props);
+   };
+   
   render() {
     const {
       match: { params },
